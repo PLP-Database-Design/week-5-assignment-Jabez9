@@ -26,7 +26,7 @@ db.connect((err) => {
      app.set('view engine', 'ejs');
      app.set('views', __dirname + '/views');
 
-     app.get('/data', (reg,res) => {
+     app.get('/data', (req,res) => {
         db.query('SELECT patient_id, first_name, last_name, date_of_birth FROM patients', (err, results) => {
             if (err){
                 console.log(err);
@@ -41,7 +41,7 @@ db.connect((err) => {
 
      app.set('view engine', 'ejs');
      app.set('views1', __dirname + '/views1');
-     app.get('/data1', (reg,res) => {
+     app.get('/data1', (req,res) => {
         db.query('SELECT first_name,last_name, provider_specialty FROM providers', (err,providerdata) => {
             if (err){
                 console.log(err);
