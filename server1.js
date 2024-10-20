@@ -26,32 +26,56 @@ db.connect((err) => {
      app.set('view engine', 'ejs');
      app.set('views', __dirname + '/views');
 
-     app.get('/data', (req,res) => {
+     app.get('/patients', (req,res) => {
         db.query('SELECT patient_id, first_name, last_name, date_of_birth FROM patients', (err, results) => {
             if (err){
                 console.log(err);
                 res.statusMessage(500).send('Error getting data');
             }
             else{
-                res.render('data', {results: results});
+                res.render('patients', {results: results});
             }
         });
      });
 
-
-     app.set('view engine', 'ejs');
-     app.set('views1', __dirname + '/views1');
-     app.get('/data1', (req,res) => {
-        db.query('SELECT first_name,last_name, provider_specialty FROM providers', (err,providerdata) => {
+     //question 2
+     app.get('/providers', (req,res) => {
+        db.query('SELECT * FROM providers', (err,rst) => {
             if (err){
                 console.log(err);
-                res.statusMessage(500).send('Error retreiving data');
+                res.statusMessage(500).send("Error retreiving the providers' data");
             }
             else {
-                res.render('data1', {providerdata: providerdata});
+                res.render('providers', {rst: rst});
             }
         });
      });
+
+     //question 3
+     app.get('/sortpatient', (req,res) => {
+        db.query('SELECT * FROM patients ORDER BY first_name',(err,sortedpatient) => {
+        if(err){
+            console.log(err);
+            res.statusMessage(500).send("Could not sort the patients by name");
+        }
+        else{
+            res.render('sortpatient', {sortedpatient:sortedpatient});
+        }
+        });
+     });
+
+    //  question 4
+    app.get("/sortprovider", (req,res) => {
+        db.query('SELECT * FROM providers ORDER BY provider_specialty', (err,providerspecialty) => {
+            if(err){
+                console.log(err);
+                res.statusMessage(500).send("did not load the provider data in the sorted manner whatsoever");
+            }
+            else{
+                res.render('sortprovider', {providerspecialty:providerspecialty});
+            }
+        });
+    });
 
    
 
